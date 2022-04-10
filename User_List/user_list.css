@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap');
+
+body{
+    background-color: LightGray;
+    font-family: 'Lato', sans-serif;
+}
+
+#my-status-indicator{
+    color: green;
+}
+
+.user-page{
+    width: 400px;
+    background-color: white;
+    padding: 25px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.user-page .account{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.user-page .account .account-info{
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.content{
+    padding-left: 15px;
+    margin: auto;
+}
+
+.user-page .account .account-info .content p{
+    margin: 1px 0;
+    font-size: 0.8rem;
+}
+
+.image-icon{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-page .account #logout-button{
+    color: #fff;
+    background-color: #333;
+    padding: 7px 15px;
+    font-size: 17px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: ease-out 0.3s;
+}
+
+.user-page .account #logout-button:hover{
+    background-color: white;
+    color: #333;
+    border: #333 1px solid;
+}
+
+.user-page .search{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.user-page .search input{
+    margin-top: 10px;
+    height: 30px;
+    width: calc(95% - 30px);
+    border: 1px solid #ccc;
+    border-right: none;
+    font-size: 16px;
+    border-radius: 5px 0 0 5px;
+    margin: auto 0;
+    padding: 5px;
+}
+ 
+.user-page .search input:focus{
+    outline: none;
+}
+
+
+.user-page .search button{
+    width: 42px;
+    height: 42px;
+    border: none;
+    color: #fff;
+    border: 1px solid #ccc;
+    background-color: #333;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    margin: 0;
+    padding: 0;
+    transition: ease-in 0.2s;
+}
+
+.user-page .search button:hover{
+    color: #333;
+    background-color: whitesmoke;
+    border: #333 1px solid;
+    
+}
+
+.user-list .account{
+    margin-top: 10px;
+}
