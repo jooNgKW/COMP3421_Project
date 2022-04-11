@@ -69,8 +69,9 @@ body{
 }
 
 .user-page .search input{
+    box-sizing: content-box; 
     margin-top: 10px;
-    height: 30px;
+    min-height: 30px;
     width: calc(95% - 30px);
     border: 1px solid #ccc;
     border-right: none;

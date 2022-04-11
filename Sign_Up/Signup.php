@@ -85,10 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_first_name = $first_name;
             $param_last_name = $last_name;
-
-            
-
-            
+        
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
