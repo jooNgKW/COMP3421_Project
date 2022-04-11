@@ -58,16 +58,43 @@ require_once "../config.php";
                     </div>
                     <i class="fa fa-circle" style="color:green;font-size: 12px;"></i>
                 </div>
-                <div class="account">
-                    <div class="account-info">
-                        <img src="./img/yanglei.jpg" alt="Dr. Lei Yang" class="image-icon">
-                        <div class="content">
-                            <span>Dr. Lei Yang</span>
-                            <p>Lecturer of COMP3421 (AY2021/22 Sem2)</p>
-                        </div>
-                    </div>
-                    <i class="fa fa-circle" style="color:Silver;font-size: 12px;"></i>
-                </div>
+                
+
+                    <?php
+                        // Prepare a select statement
+                        $sql = "SELECT id, username FROM users WHERE id != ?";
+
+                        if($stmt = mysqli_prepare($link, $sql)){
+                            // Bind variables to the prepared statement as parameters
+                            mysqli_stmt_bind_param($stmt, "i", $param_id);
+
+                            $param_id = $_SESSION['id'];
+
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_store_result($stmt);
+                                mysqli_stmt_bind_result($stmt, $id, $username);
+                                $number_of_list = mysqli_stmt_num_rows($stmt);
+                                for($x = 0; $x < $number_of_list; $x++){
+                                    if(mysqli_stmt_fetch($stmt)){
+                                        echo 
+                                        '<div class="account">
+                                            <div class="account-info">
+                                                <img src="./img/'.$id.'.jpg" alt="'.$username.'" class="image-icon">
+                                                <div class="content">
+                                                    <span>'.$username.'</span>
+                                                    <p>'."New user. Hi!".'</p>
+                                                </div>
+                                            </div>
+                                            <i class="fa fa-circle" style="color:Silver;font-size: 12px;"></i>
+                                        </div>';
+                                    }
+                                }
+                            }
+                        }
+
+                        mysqli_stmt_close($stmt);
+
+                    ?>
             </div>    
         </section>
     </div>
