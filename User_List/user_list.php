@@ -99,7 +99,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                                     <p>'."New user. Hi!".'</p>
                                                 </div>
                                             </div>
-                                            <i class="fa fa-circle" style="color:Silver;font-size: 12px;"></i>
                                         </div>';
                                     }
                                 }

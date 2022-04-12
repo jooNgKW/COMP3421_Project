@@ -44,6 +44,10 @@ body{
     margin-bottom: 10px;
     display: none; /*remove*/
   }
+
+  .form form .show{
+    display: block; /*remove*/
+  }
  
   .form form .name{
     display: flex;
@@ -143,7 +147,7 @@ body{
       opacity: 0;
       filter: blur(50px);
     }
-    100{
+    100%{
       opacity: 100;
     }
   }

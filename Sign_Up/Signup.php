@@ -11,7 +11,6 @@ $username_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
     $first_name = $_POST["first_name"];
     $last_name = $_POST["last_name"];
     $email = $_POST["email"];
@@ -89,7 +88,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
-                //header("location: /");
+                header("location: /");
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
@@ -125,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <header>Chatroom - Sign up</header>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="error">Error!</div>
+                <div class="error <?php echo empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err ?></div>
 
                 <div class="f input">
                     <label>Icon</label>
@@ -166,7 +165,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <!--<i class="fa-solid fa-eye-slash" id="eye"></i>-->
                 </div>
 
-                <div class="f button">
+                <div class="f button" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <input type="submit" value="Create account">
                 </div>
                 
