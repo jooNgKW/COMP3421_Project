@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Uploaded successfully!";
             } 
         } else{
-            echo "Error: There was a problem uploading your file. Please try again."; 
+            echo "There was a problem uploading your file. Please try again."; 
         }
         } else{
             echo "Error: " . $_FILES["icon"]["error"];
@@ -48,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }   
     
     //show the information of the uploaded file and stores it in a temporary directory on the web server.
-    if($_FILES["photo"]["error"] > 0){
+    if($_FILES["icon"]["error"] > 0){
         echo "Error: " . $_FILES["icon"]["error"] . "<br>";
     } else{
         echo:"Icon:" <br>";
