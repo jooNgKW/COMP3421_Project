@@ -14,49 +14,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $first_name = $_POST["first_name"];
     $last_name = $_POST["last_name"];
     $email = $_POST["email"];
- 
+    $icon = $_POST["icon"];
+    $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png");
+    $maxsize = 10 * 1024 * 1024;
+     
     // Check if icon is empty
-    if(isset($_FILES["icon"]) && $_FILES["icon"]["error"] == 0){
-        $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png");
-        $iconname = $_FILES["icon"]["name"];
-        $icontype = $_FILES["icon"]["type"];
-        $iconsize = $_FILES["icon"]["size"];
-    
-        // Verify icon type
-        $ext = pathinfo($iconname, PATHINFO_EXTENSION);
-        if(!array_key_exists($ext, $allowed)) die("Please upload jpg., jpeg., png. ");
-    
-        // Verify icon size - 10MB maximum
-        $maxsize = 10 * 1024 * 1024;
-        if($iconsize > $maxsize) die("Please select a file not larger than 10 MB");
-    
-        // Verify the icon
-        if(in_array($filetype, $allowed)){
-            // Check if icon repeated 
-            if(file_exists("upload/" . $iconname)){
-                echo $iconname . "is already exists, please upload the new icon!";
-            } else{
-                move_uploaded_file($_FILES["icon"]["tmp_name"], "upload/" . $iconname);
-                echo "Uploaded successfully!";
-            } 
-        } else{
-            echo "There was a unknown problem. Please upload again."; 
-        }
-        } else{
-            echo "Error: " . $_FILES["icon"]["error"];
-        }
-    }   
-    
-    //show the information of the uploaded icon
-    //store icon in a temporary directory
-    if($_FILES["icon"]["error"] > 0){
-        echo "Error: " . $_FILES["icon"]["error"] . "<br>";
-    } else{
-        echo "Icon:" "<br>";
-        echo "Name: " . $_FILES["icon"]["name"] . "<br>";
-        echo "Type: " . $_FILES["icon"]["type"] . "<br>";
-        echo "Size: " . ($_FILES["icon"]["size"] / 1024) . " KB<br>";
-        echo "Storage: " . $_FILES["icon"]["tmp_name"];
+    if(empty(trim($_POST["password"]))){
+        $icon_err = "Please upload the icon.";  
+     
+    }elseif(!empty(trim($_POST["password"]))){
+        $icon_name = $_FILES["icon"]["name"];
+        $icon_type = $_FILES["icon"]["type"];
+        $icon_size = $_FILES["icon"]["size"];
+     
+    // Verify icon type:jpg., jpeg., png. 
+    }elseif($icon_type != $allowed){
+        $icon_err = "Icon can only be jpg., jpeg., png.";
+     
+    // Verify icon size (10MB maximum)
+    }elseif($icon_size > $maxsize){
+        $icon_err = "Icon can not be larger than 10 MB";
+     
+    }else{
+        $icon = trim($_POST["icon"]);
     }
 
     // Validate username
@@ -114,16 +94,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($icon_err), empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, first_name, last_name) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO users (icon, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssss", $param_username, $param_password, $param_first_name, $param_last_name);
+            mysqli_stmt_bind_param($stmt, "ssss", $param_icon, $param_username, $param_password, $param_first_name, $param_last_name);
             
             // Set parameters
+            $param_icon = $icon;
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_first_name = $first_name;
@@ -168,11 +149,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <header>Chatroom - Sign up</header>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="error <?php echo empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err ?></div>
+                <div class="error <?php echo empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($icon_err)? empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err) : $icon_err ?></div>
 
                 <div class="f input">
                     <label>Icon</label>
                     <input type="file" name ="icon" accept=".png, .jpg, .jpeg">
+                    <?php echo $icon_name>
                 </div>
 
                 <div class="name">
