@@ -18,25 +18,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Check if icon is empty
     if(isset($_FILES["icon"]) && $_FILES["icon"]["error"] == 0){
         $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png");
-        $filename = $_FILES["icon"]["name"];
-        $fileformat = $_FILES["icon"]["format"];
-        $filesize = $_FILES["icon"]["size"];
+        $iconname = $_FILES["icon"]["name"];
+        $icontype = $_FILES["icon"]["type"];
+        $iconsize = $_FILES["icon"]["size"];
     
-        // Verify file type
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        // Verify icon type
+        $ext = pathinfo($iconname, PATHINFO_EXTENSION);
         if(!array_key_exists($ext, $allowed)) die("Please upload jpg., jpeg., png. ");
     
-        // Verify file size - 10MB maximum
+        // Verify icon size - 10MB maximum
         $maxsize = 10 * 1024 * 1024;
-        if($filesize > $maxsize) die("Please select a file not larger than 10 MB");
+        if($iconsize > $maxsize) die("Please select a file not larger than 10 MB");
     
-        // Verify the file
+        // Verify the icon
         if(in_array($filetype, $allowed)){
-            // Check whether file exists before uploading it
-            if(file_exists("upload/" . $filename)){
-                echo $filename . "is already exists, please upload the new icon!";
+            // Check if icon repeated 
+            if(file_exists("upload/" . $iconname)){
+                echo $iconname . "is already exists, please upload the new icon!";
             } else{
-                move_uploaded_file($_FILES["icon"]["tmp_name"], "upload/" . $filename);
+                move_uploaded_file($_FILES["icon"]["tmp_name"], "upload/" . $iconname);
                 echo "Uploaded successfully!";
             } 
         } else{
@@ -51,9 +51,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if($_FILES["photo"]["error"] > 0){
         echo "Error: " . $_FILES["icon"]["error"] . "<br>";
     } else{
-        echo "File name: " . $_FILES["icon"]["name"] . "<br>";
-        echo "File format: " . $_FILES["icon"]["format"] . "<br>";
-        echo "File size: " . ($_FILES["icon"]["size"] / 1024) . " KB<br>";
+        echo:"Icon:" <br>";
+        echo "Name: " . $_FILES["icon"]["name"] . "<br>";
+        echo "Type: " . $_FILES["icon"]["type"] . "<br>";
+        echo "Size: " . ($_FILES["icon"]["size"] / 1024) . " KB<br>";
         echo "Storage: " . $_FILES["icon"]["tmp_name"];
     }
 
