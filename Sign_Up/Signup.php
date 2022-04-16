@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Uploaded successfully!";
             } 
         } else{
-            echo "There was a problem uploading your file. Please try again."; 
+            echo "There was a unknown problem. Please upload again."; 
         }
         } else{
             echo "Error: " . $_FILES["icon"]["error"];
