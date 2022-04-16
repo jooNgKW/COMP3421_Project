@@ -47,11 +47,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }   
     
-    //show the information of the uploaded file and stores it in a temporary directory on the web server.
+    //show the information of the uploaded icon
+    //store icon in a temporary directory
     if($_FILES["icon"]["error"] > 0){
         echo "Error: " . $_FILES["icon"]["error"] . "<br>";
     } else{
-        echo:"Icon:" <br>";
+        echo "Icon:" "<br>";
         echo "Name: " . $_FILES["icon"]["name"] . "<br>";
         echo "Type: " . $_FILES["icon"]["type"] . "<br>";
         echo "Size: " . ($_FILES["icon"]["size"] / 1024) . " KB<br>";
