@@ -128,7 +128,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 <div class="f input">
                     <label>Icon</label>
-                    <input type="file" accept=".png, .jpg, .jpeg">
+                    <input type="file" name ="icon" accept=".png, .jpg, .jpeg">
                 </div>
 
                 <div class="name">
