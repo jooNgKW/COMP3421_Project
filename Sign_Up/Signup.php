@@ -55,6 +55,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //Validate email
     if(empty(trim($_POST["email"]))){
         $email_err = "Please enter an email.";
+    }elseif(count(explode("@", trim($_POST["email"]))) != 2){
+        $email_err = "Please enter a valid email.";
     }else{
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE email = ?";
@@ -125,7 +127,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $info = pathinfo($_FILES['icon']['name']);
         $ext = $info['extension']; // get the extension of the file
         $newname = $username.'.'.$ext;
-        $target = $_SERVER['DOCUMENT_ROOT']."/images/".$newname;
+        $target = "http://localhost/images/".$newname;
         move_uploaded_file($_FILES['icon']['tmp_name'], $target);
         $icon_tmp = $target;
   

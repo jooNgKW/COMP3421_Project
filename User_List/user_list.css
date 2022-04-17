@@ -110,3 +110,8 @@ body{
 .user-list .account{
     margin-top: 10px;
 }
+
+.user-list{
+    max-height: 600px;
+    overflow: auto;
+}

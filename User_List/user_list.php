@@ -71,7 +71,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
                 <?php
                     // Prepare a select statement
-                    $sql = "SELECT id, username FROM users WHERE id != ?";
+                    $sql = "SELECT id, username, email, icon FROM users WHERE id != ?";
 
                     if($stmt = mysqli_prepare($link, $sql)){
                         // Bind variables to the prepared statement as parameters
@@ -81,7 +81,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                         if(mysqli_stmt_execute($stmt)){
                             mysqli_stmt_store_result($stmt);
-                            mysqli_stmt_bind_result($stmt, $id, $username);
+                            mysqli_stmt_bind_result($stmt, $id, $username, $email, $icon);
                             $number_of_list = mysqli_stmt_num_rows($stmt);
 
                             $counter = 0;
@@ -92,10 +92,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                         echo 
                                         '<div class="account">
                                             <div class="account-info">
-                                                <img src="./img/peter.jpg" alt="'.$username.'" class="image-icon">
+                                                <img src="'.$icon.'" alt="'.$username.'" class="image-icon">
                                                 <div class="content">
                                                     <span>'.$username.'</span>
-                                                    <p>'."New user. Hi!".'</p>
+                                                    <p>Email: '.$email.'</p>
                                                 </div>
                                             </div>
                                         </div>';
