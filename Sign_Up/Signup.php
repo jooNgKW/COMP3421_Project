@@ -16,29 +16,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = $_POST["email"];
     $icon = $_POST["icon"];
     $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png");
-    $maxsize = 10 * 1024 * 1024;
+    $maxsize = 4 * 1024 * 1024;
      
     // Check if icon is empty
-    if(empty(trim($_POST["password"]))){
+    if(empty($_POST["icon"])){
         $icon_err = "Please upload the icon.";  
      
-    }elseif(!empty(trim($_POST["password"]))){
-        $icon_name = $_FILES["icon"]["name"];
+    }elseif(!empty($_POST["icon"])){
         $icon_type = $_FILES["icon"]["type"];
         $icon_size = $_FILES["icon"]["size"];
+        $icon_tmp = addslashes (file_get_contents($_FILES["icon"]["tmp_name"]));
      
     // Verify icon type:jpg., jpeg., png. 
     }elseif($icon_type != $allowed){
         $icon_err = "Icon can only be jpg., jpeg., png.";
      
     // Verify icon size (10MB maximum)
-    }elseif($icon_size > $maxsize){
-        $icon_err = "Icon can not be larger than 10 MB";
+    }else($icon_size > $maxsize){
+        $icon_err = "Icon can not be larger than 4 GB";
      
-    }else{
-        $icon = trim($_POST["icon"]);
     }
-
+ 
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter a username.";
@@ -95,16 +93,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Check input errors before inserting in database
     if(empty($icon_err), empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-        
+  
         // Prepare an insert statement
-        $sql = "INSERT INTO users (icon, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users ( icon_tmp, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssss", $param_icon, $param_username, $param_password, $param_first_name, $param_last_name);
+            mysqli_stmt_bind_param($stmt, "ssss", $param_icon_tmp, $param_username, $param_password, $param_first_name, $param_last_name);
             
             // Set parameters
-            $param_icon = $icon;
+            $param_icon_tmp = $icon_tmp;
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_first_name = $first_name;
@@ -153,8 +151,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 <div class="f input">
                     <label>Icon</label>
-                    <input type="file" name ="icon" accept=".png, .jpg, .jpeg">
-                    <?php echo $icon_name>
+                    <input type="file" name ="icon" accept=".png, .jpg, .jpeg" value="<?php echo $icon_tmp;?>">
                 </div>
 
                 <div class="name">
