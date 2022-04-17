@@ -128,5 +128,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <p>Don't have an account? <a href="./Sign_Up/Signup.php">Sign up now</a>.</p>
         </form>
     </div>
+
+    <?php
+     $sql = "SELECT icon FROM users WHERE username = ?";
+     $stmt = $link->prepare($sql);
+     $stmt->bind_param('s', $x);
+     $x = "kkk";
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $row = $result->fetch_array();
+     echo '<img src="data:image/jpeg;base64,'.base64_encode($row['icon']).'"/>';
+    ?>
 </body>
 </html>

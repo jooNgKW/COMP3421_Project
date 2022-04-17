@@ -14,19 +14,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $first_name = $_POST["first_name"];
     $last_name = $_POST["last_name"];
     $email = $_POST["email"];
-    $icon = $_POST["icon"];
     $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png");
     $maxsize = 4 * 1024 * 1024;
      
     // Check if icon is empty
-    if(empty($_POST["icon"])){
+    if($_FILES['icon']['size'] == 0 && $_FILES['icon']['error'] == 0){
         $icon_err = "Please upload the icon.";  
      
-    }elseif(!empty($_POST["icon"])){
-        $icon = $_POST["icon"];
+    }elseif(!($_FILES['icon']['size'] == 0 && $_FILES['icon']['error'] == 0)){
         $icon_type = $_FILES["icon"]["type"];
         $icon_size = $_FILES["icon"]["size"];
-        $icon_tmp = addslashes (file_get_contents($_FILES["icon"]["tmp_name"]));
+        $icon_tmp = addslashes(file_get_contents($_FILES["icon"]["tmp_name"]));
      
     // Verify icon type:jpg., jpeg., png. 
     }elseif($icon_type != $allowed){
@@ -37,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $icon_err = "Icon can not be larger than 4 GB";
      
     }else{
-        echo "Uploaded successfully!"
+        echo "Uploaded successfully!";
     }
  
     // Validate username
@@ -98,11 +96,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)){
   
         // Prepare an insert statement
-        $sql = "INSERT INTO users ( icon_tmp, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (icon, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssss", $param_icon_tmp, $param_username, $param_password, $param_first_name, $param_last_name);
+            mysqli_stmt_bind_param($stmt, "sssss", $param_icon_tmp, $param_username, $param_password, $param_first_name, $param_last_name);
             
             // Set parameters
             $param_icon_tmp = $icon_tmp;
@@ -149,12 +147,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <section class="form">
             <header>Chatroom - Sign up</header>
 
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="error <?php echo empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($icon_err)? empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err) : $icon_err ?></div>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
+                <div class="error <?php echo empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($icon_err)? (empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err) : $icon_err ?></div>
 
                 <div class="f input">
                     <label>Icon</label>
-                    <input type="file" name ="icon" accept=".png, .jpg, .jpeg" value="<?php echo $icon_tmp;?>">
+                    <input type="file" name="icon" accept=".png, .jpg, .jpeg" value="<?php echo $icon_tmp;?>">
                 </div>
 
                 <div class="name">
