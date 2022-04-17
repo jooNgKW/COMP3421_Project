@@ -16,27 +16,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = $_POST["email"];
     $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png");
     $maxsize = 4 * 1024 * 1024;
-     
-    // Check if icon is empty
-    if($_FILES['icon']['size'] == 0 && $_FILES['icon']['error'] == 0){
-        $icon_err = "Please upload the icon.";  
-     
-    }elseif(!($_FILES['icon']['size'] == 0 && $_FILES['icon']['error'] == 0)){
-        $icon_type = $_FILES["icon"]["type"];
-        $icon_size = $_FILES["icon"]["size"];
-        $icon_tmp = addslashes(file_get_contents($_FILES["icon"]["tmp_name"]));
-     
-    // Verify icon type:jpg., jpeg., png. 
-    }elseif($icon_type != $allowed){
-        $icon_err = "Icon can only be jpg., jpeg., png.";
-     
-    // Verify icon size (10MB maximum)
-    }elseif($icon_size > $maxsize){
-        $icon_err = "Icon can not be larger than 4 GB";
-     
-    }else{
-        echo "Uploaded successfully!";
-    }
  
     // Validate username
     if(empty(trim($_POST["username"]))){
@@ -72,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_close($stmt);
         }
     }
-    
+
     // Validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";     
@@ -91,9 +70,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $confirm_password_err = "Password did not match.";
         }
     }
+
+    // Check if icon is empty
+    if($_FILES['icon']['size'] == 0 && $_FILES['icon']['error'] == 0){
+        $icon_err = "Please upload the icon.";  
+
+    // Verify icon type:jpg., jpeg., png. 
+    }elseif(!in_array($_FILES["icon"]["type"], $allowed)){
+        $icon_err = "Icon can only be jpg., jpeg., png.";
+        
+    // Verify icon size (10MB maximum)
+    }elseif($_FILES["icon"]["size"] > $maxsize){
+        $icon_err = "Icon can not be larger than 4 GB";
+        
+    }
     
     // Check input errors before inserting in database
     if(empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+
+        //set image
+        $info = pathinfo($_FILES['icon']['name']);
+        $ext = $info['extension']; // get the extension of the file
+        $newname = $username.'.'.$ext;
+        $target = $_SERVER['DOCUMENT_ROOT']."/images/".$newname;
+        move_uploaded_file($_FILES['icon']['tmp_name'], $target);
+        $icon_tmp = $target;
   
         // Prepare an insert statement
         $sql = "INSERT INTO users (icon, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
