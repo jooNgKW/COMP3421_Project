@@ -23,7 +23,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $icon_err = "Please upload the icon.";  
      
     }elseif(!empty($_POST["icon"])){
-        $icon_name = $_FILES["icon"]["name"];
         $icon_type = $_FILES["icon"]["type"];
         $icon_size = $_FILES["icon"]["size"];
         $icon_tmp = addslashes (file_get_contents($_FILES["icon"]["tmp_name"]));
