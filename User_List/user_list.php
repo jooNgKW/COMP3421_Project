@@ -21,6 +21,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 }
 
+$result = mysqli_query($link, "SELECT * FROM users WHERE id = '".$_SESSION['id']."'");
+$currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -41,8 +44,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <!-- User Account Information -->
             <div class="account">
                 <div class="account-info">
-                    <img src="./img/people.jpg" alt="Mary" class="image-icon">
-                    <div class="content">
+                    <?php echo '<img src="'.$currentuser["icon"].'" alt="'.$_SESSION['username'].'" class="image-icon">'; ?>
+					<!--<img src="./img/peter.jpg" alt="'.$username.'" class="image-icon">-->
+					<div class="content">
                         <span><?php echo $_SESSION['username']?></span>
                         <p><i class="fa fa-circle" id="my-status-indicator"></i> &nbsp Active</p>
                     </div>
@@ -71,17 +75,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
                 <?php
                     // Prepare a select statement
-                    $sql = "SELECT id, username, email, icon FROM users WHERE id != ?";
+                    $sql = "SELECT id, username, icon FROM users WHERE id != ?";
 
                     if($stmt = mysqli_prepare($link, $sql)){
                         // Bind variables to the prepared statement as parameters
                         mysqli_stmt_bind_param($stmt, "i", $param_id);
-
                         $param_id = $_SESSION['id'];
-
                         if(mysqli_stmt_execute($stmt)){
                             mysqli_stmt_store_result($stmt);
-                            mysqli_stmt_bind_result($stmt, $id, $username, $email, $icon);
+                            mysqli_stmt_bind_result($stmt, $id, $username, $icon);
                             $number_of_list = mysqli_stmt_num_rows($stmt);
 
                             $counter = 0;
@@ -92,10 +94,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                         echo 
                                         '<div class="account">
                                             <div class="account-info">
-                                                <img src="'.$icon.'" alt="'.$username.'" class="image-icon">
+												<img src="'.$icon.'" alt="'.$username.'" class="image-icon">
                                                 <div class="content">
                                                     <span>'.$username.'</span>
-                                                    <p>Email: '.$email.'</p>
+                                                    <p>'."New user. Hi!".'</p>
                                                 </div>
                                             </div>
                                         </div>';
