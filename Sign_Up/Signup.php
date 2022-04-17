@@ -7,7 +7,7 @@ require_once "../config.php";
  
 // Define variables and initialize with empty values
 $icon = $first_name = $last_name = $username = $email = $password = $confirm_password = "";
-$icon_err = $username_err = $password_err = $confirm_password_err = "";
+$icon_err = $email_err = $username_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -52,6 +52,39 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
 
+    //Validate email
+    if(empty(trim($_POST["email"]))){
+        $email_err = "Please enter an email.";
+    }else{
+        // Prepare a select statement
+        $sql = "SELECT id FROM users WHERE email = ?";
+        
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_email);
+            
+            // Set parameters
+            $param_email = trim($_POST["email"]);
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $email_err = "This email is already taken.";
+                } else{
+                    $email = trim($_POST["email"]);
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
+    }
+
     // Validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";     
@@ -86,7 +119,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($email_err)){
 
         //set image
         $info = pathinfo($_FILES['icon']['name']);
@@ -97,13 +130,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $icon_tmp = $target;
   
         // Prepare an insert statement
-        $sql = "INSERT INTO users (icon, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (email, icon, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssss", $param_icon_tmp, $param_username, $param_password, $param_first_name, $param_last_name);
+            mysqli_stmt_bind_param($stmt, "ssssss", $param_email, $param_icon_tmp, $param_username, $param_password, $param_first_name, $param_last_name);
             
             // Set parameters
+            $param_email = $email;
             $param_icon_tmp = $icon_tmp;
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
@@ -149,7 +183,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <header>Chatroom - Sign up</header>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
-                <div class="error <?php echo empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($icon_err)? (empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err) : $icon_err ?></div>
+                <div class="error <?php echo empty($$email_err) &&empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($email_err)? (empty($icon_err)? (empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err) : $icon_err): $email_err ?></div>
 
                 <div class="f input">
                     <label>Icon</label>
