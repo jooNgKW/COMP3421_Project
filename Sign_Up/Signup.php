@@ -23,6 +23,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $icon_err = "Please upload the icon.";  
      
     }elseif(!empty($_POST["icon"])){
+        $icon = $_POST["icon"];
         $icon_type = $_FILES["icon"]["type"];
         $icon_size = $_FILES["icon"]["size"];
         $icon_tmp = addslashes (file_get_contents($_FILES["icon"]["tmp_name"]));
@@ -32,9 +33,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $icon_err = "Icon can only be jpg., jpeg., png.";
      
     // Verify icon size (10MB maximum)
-    }else($icon_size > $maxsize){
+    }elseif($icon_size > $maxsize){
         $icon_err = "Icon can not be larger than 4 GB";
      
+    }else{
+        echo "Uploaded successfully!"
     }
  
     // Validate username
@@ -92,7 +95,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($icon_err), empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)){
   
         // Prepare an insert statement
         $sql = "INSERT INTO users ( icon_tmp, username, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
