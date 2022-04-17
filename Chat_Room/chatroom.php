@@ -1,5 +1,7 @@
 <?php
     session_start();
+
+    //insert message 
     if(isset($_SESSION[''unique_id])){
         include_once "config.php";
         $outgoing_id = mysqli_real_escape_string($conn, $POST["out_id"]);
@@ -13,6 +15,7 @@
         }
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,13 +28,21 @@
         <section class="chat-area">
             <header>
                 <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
-                <img src="" alt="icon">
+                <img src="icon.jpg" alt="">
                 <div class="details">
                     <span>Coding Nepal</span>
                     <p>Active now</p>
                 </div>
             </header>
-
+            
+            <a href="user_list.php"><i class='fas fa-arrow-left'></a>
+                
+            //display the user informaion
+            <img src="icon.jpg" alt="">
+            <div class="details">
+                <span>USERNAME</span>
+            </div>
+                
             <div class="chat-box">
 
                 <div class="chat outgoing">
@@ -63,8 +74,8 @@
             </div>
 
             <form action="#" class="typing-area">
-                <input type="text" name="out_id" value="<?php echo $_SESSION['unique_id']:?>">
-                <input type="text" name="in_id" value="<?php echo $user_id:?>">
+                <input type="text" name="out_id" value="<?php echo $_SESSION['unique_id']:?>" hidden>
+                <input type="text" name="in_id" value="<?php echo $user_id:?>" hidden>
                 <input type="text" placeholder="Type a message here...">
                 <button><i class="fab fa-telegram-plane"></i></button>
             </form>
