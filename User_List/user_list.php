@@ -18,7 +18,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $search = "";
     } else{
         $search = trim($_POST["search"]);
-        echo $search;
     }
 }
 
@@ -105,7 +104,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             }
 
                             if ($counter == 0){
-                                echo "No user is found!";
+                                echo "<h4>No user is found!</h4>";
                             }
                         }
                     }
