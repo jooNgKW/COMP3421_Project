@@ -26,6 +26,10 @@ Users can logout of the chat app by clicking the logout button. After logging ou
 4. Login the system with your credentials
 5. Start using the application!
 
+## FAQ
+**Q**: Can I search the firend I want to talk to? <br>
+**A**: Yes, you can use the search function to shortlist target person in userlist.
+
 ## Member and contribution
 |Name|Student ID|Contributions|
 |---|---|---|
