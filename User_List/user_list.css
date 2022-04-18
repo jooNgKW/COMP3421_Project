@@ -17,6 +17,13 @@ body{
     border-radius: 10px;
 }
 
+.accountbutton {
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
 .user-page .account{
     display: flex;
     align-items: center;
@@ -34,7 +41,7 @@ body{
     margin: auto;
 }
 
-.user-page .account .account-info .content p{
+.user-page .account .content p{
     margin: 1px 0;
     font-size: 0.8rem;
 }
@@ -109,9 +116,4 @@ body{
 
 .user-list .account{
     margin-top: 10px;
-}
-
-.user-list{
-    max-height: 600px;
-    overflow: auto;
 }
