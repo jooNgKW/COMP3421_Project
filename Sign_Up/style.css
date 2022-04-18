@@ -1,23 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: 'Poppins', sans-serif;
-}
-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f7f7f7;
-}
-.wrapper{
-    background: rgb(255, 255, 255);
-    width: 450px;
-    border-radius: 15px;
-    box-shadow: 0px 0px 40px 1px #333;
-    animation: show 0.5s linear;
-}
+@import url('../general.css');
 
 .form{
     padding: 20px 20px;
