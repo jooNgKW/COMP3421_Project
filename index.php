@@ -1,86 +1,86 @@
 <?php
-// Initialize the session.
+// Start the session
 session_start();
 
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+// Check if the session is started (user logged in), if yes, redirect the user to user_list
+if(isset($_SESSION["online"]) && $_SESSION["online"] === true){
     header("location: ./User_List/user_list.php");
     exit;
 }
  
-// Include config file
+// Config the database
 require_once "config.php";
  
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
  
-// Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
-    // Check if username is empty
+    // Check 1: validate if username is null
     if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter username.";
+        $username_err = "Please enter your username!";
     } else{
         $username = trim($_POST["username"]);
     }
     
-    // Check if password is empty
+    // Check 2: validate if password is null
     if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter your password.";
+        $password_err = "Please enter your password!";
     } else{
         $password = trim($_POST["password"]);
     }
     
-    // Validate credentials
+    // Check 3: validate if the credentials is valid
     if(empty($username_err) && empty($password_err)){
-        // Prepare a select statement
+        // SQL statment to get user infomation, if the provided username exists
         $sql = "SELECT id, username, password FROM users WHERE username = ?";
         
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
+        if($sql_statment = mysqli_prepare($link, $sql)){
+            // Variables binding to the SQL
+            mysqli_stmt_bind_param($sql_statment, "s", $param_username);
             
-            // Set parameters
+            // Variable declaration
             $param_username = $username;
             
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Store result
-                mysqli_stmt_store_result($stmt);
+            // SQL Execution
+            if(mysqli_stmt_execute($sql_statment)){
+                // Result storage
+                mysqli_stmt_store_result($sql_statment);
                 
-                // Check if username exists, if yes then verify password
-                if(mysqli_stmt_num_rows($stmt) == 1){                    
-                    // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
-                    if(mysqli_stmt_fetch($stmt)){
+                // Check if there is any result obtained from the SQL
+                if(mysqli_stmt_num_rows($sql_statment) == 1){                    
+                    mysqli_stmt_bind_result($sql_statment, $id, $username, $hashed_password);
+                    if(mysqli_stmt_fetch($sql_statment)){
+
+                        //check if the password match
                         if(password_verify($password, $hashed_password)){
-                            // Password is correct, so start a new session
+
+                            // Start a new session and initialize variables
                             session_start();
-                            
-                            // Store data in session variables
-                            $_SESSION["loggedin"] = true;
+                            $_SESSION["online"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;                            
                             
-                            // Redirect user to welcome page
+                            // Redirect to user list
                             header("location: /User_List/user_list.php");
                             exit;
+
                         } else{
-                            // Password is not valid, display a generic error message
-                            $login_err = "Invalid username or password. 1";
+                            // Incorrect password
+                            $login_err = "Login failed! (Invalid username/password)";
                         }
                     }
                 } else{
-                    // Username doesn't exist, display a generic error message
-                    $login_err = "Invalid username or password. 2";
+                    // Incorrect username/password
+                    $login_err = "Login failed! (Invalid username/password)";
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "System Error! Please contact IT services for further assistance.";
             }
 
-            // Close statement
-            mysqli_stmt_close($stmt);
+            // Statement end
+            mysqli_stmt_close($sql_statment);
         }
     }
     

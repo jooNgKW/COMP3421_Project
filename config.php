@@ -1,12 +1,11 @@
 <?php
-/* Database credentials. Assuming you are running MySQL
-server with default setting (user 'root' with no password) */
+// Database parameters
 define('database_server_ip', 'localhost');
 define('database_username', 'root');
 define('database_password', '');
 define('database_name', 'COMP3421');
  
-/* Attempt to connect to MySQL database */
+// Connect to the database
 try{
     $link = mysqli_connect(database_server_ip, database_username, database_password, database_name);
 } catch(Exception $e){
@@ -14,7 +13,7 @@ try{
 }
 
  
-// Check connection
+// Verify DB connection
 if($link === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
