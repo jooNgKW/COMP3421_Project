@@ -55,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //Validate email
     if(empty(trim($_POST["email"]))){
         $email_err = "Please enter an email.";
-    }elseif(count(explode("@", trim($_POST["email"]))) != 2){
+    }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
         $email_err = "Please enter a valid email.";
     }else{
         // Prepare a select statement
@@ -127,8 +127,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $info = pathinfo($_FILES['icon']['name']);
         $ext = $info['extension']; // get the extension of the file
         $newname = $username.'.'.$ext;
-        $target = "http://localhost/images/".$newname;
-        move_uploaded_file($_FILES['icon']['tmp_name'], $target);
+        $target = "http://".$_SERVER['HTTP_HOST']."/images/".$newname;
+        move_uploaded_file($_FILES['icon']['tmp_name'], "../images/".$newname);
         $icon_tmp = $target;
   
         // Prepare an insert statement
@@ -175,6 +175,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/8f0e351197.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<title>Sign up ChatTogether Now!</title>
 </head>
 
 <body>
@@ -182,10 +183,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="wrapper">
 
         <section class="form">
-            <header>Chatroom - Sign up</header>
+            <header>ChatTogether - Sign up</header>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
-                <div class="error <?php echo empty($$email_err) &&empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($email_err)? (empty($icon_err)? (empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err) : $icon_err): $email_err ?></div>
+                <div class="error <?php echo empty($email_err) && empty($icon_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)? '': 'show'?>"><?php echo empty($email_err)? (empty($icon_err)? (empty($username_err)? (empty($password_err) ? (empty($confirm_password_err)? "": $confirm_password_err) : $password_err) : $username_err) : $icon_err): $email_err ?></div>
 
                 <div class="f input">
                     <label>Icon</label>
