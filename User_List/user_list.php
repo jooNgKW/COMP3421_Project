@@ -63,7 +63,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
             <div class="user-list">
                 <?php
                     // Prepare a select statement
-                    $sql = "SELECT id, username, icon FROM users WHERE id != ?";
+                    $sql = "SELECT id, username, icon, email FROM users WHERE id != ?";
 
                     if($stmt = mysqli_prepare($link, $sql)){
                         // Bind variables to the prepared statement as parameters
@@ -71,7 +71,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
                         $param_id = $_SESSION['id'];
                         if(mysqli_stmt_execute($stmt)){
                             mysqli_stmt_store_result($stmt);
-                            mysqli_stmt_bind_result($stmt, $id, $username, $icon);
+                            mysqli_stmt_bind_result($stmt, $id, $username, $icon, $email);
                             $number_of_list = mysqli_stmt_num_rows($stmt);
 
                             $counter = 0;
@@ -86,7 +86,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
 													<img src="'.$icon.'" alt="'.$username.'" class="image-icon">
 													<div class="content">
 														<span>'.$username.'</span>
-														<p>'."New user. Hi!".'</p>
+														<p> Email: '.$email.'</p>
 													</div>
 												</div>
 											</div>
