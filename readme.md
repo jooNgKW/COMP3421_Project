@@ -21,7 +21,7 @@ Users can logout of the chat app by clicking the logout button. After logging ou
 
 ## Quick start
 1. Download and setup XAMPP (Apache + MySQL)
-2. Access the application via [your address](http://localhost])
+2. Access the application via [your address](localhost])
 3. Register an account by clicking "Sign up now"
 4. Login the system with your credentials
 5. Start using the application!
