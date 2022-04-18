@@ -87,7 +87,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
 												<img src="'.$icon.'" alt="'.$username.'" class="image-icon">
                                                 <div class="content">
                                                     <span>'.$username.'</span>
-                                                    <p>'.$email.'</p>
+                                                    <p> Email: '.$email.'</p>
                                                 </div>
                                             </div>
                                         </div>';
