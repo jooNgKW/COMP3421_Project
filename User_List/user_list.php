@@ -35,10 +35,9 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
     <title>COMP3421 Final Project</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./user_list.css">
-
 </head>
 <body>
-    <div>
+    <div class="wrapper">
         <section class="user-page">
 
             <!-- User Account Information -->
@@ -62,20 +61,9 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
             <!-- Friend Account Information -->
             <div class="user-list">
-                <!-- <div class="account">
-                    <div class="account-info">
-                        <img src="./img/peter.jpg" alt="Peter" class="image-icon">
-                        <div class="content">
-                            <span>Peter Lam</span>
-                            <p>Professional Photographer</p>
-                        </div>
-                    </div>
-                    <i class="fa fa-circle" style="color:green;font-size: 12px;"></i>
-                </div> -->
-            
                 <?php
                     // Prepare a select statement
-                    $sql = "SELECT id, username, icon FROM users WHERE id != ?";
+                    $sql = "SELECT id, username, icon, email FROM users WHERE id != ?";
 
                     if($stmt = mysqli_prepare($link, $sql)){
                         // Bind variables to the prepared statement as parameters
@@ -83,7 +71,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
                         $param_id = $_SESSION['id'];
                         if(mysqli_stmt_execute($stmt)){
                             mysqli_stmt_store_result($stmt);
-                            mysqli_stmt_bind_result($stmt, $id, $username, $icon);
+                            mysqli_stmt_bind_result($stmt, $id, $username, $icon, $email);
                             $number_of_list = mysqli_stmt_num_rows($stmt);
 
                             $counter = 0;
@@ -92,15 +80,17 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
                                     if(empty($search) || str_contains($username, $search)){
                                         $counter += 1;
                                         echo 
-                                        '<div class="account">
-                                            <div class="account-info">
-												<img src="'.$icon.'" alt="'.$username.'" class="image-icon">
-                                                <div class="content">
-                                                    <span>'.$username.'</span>
-                                                    <p>'."New user. Hi!".'</p>
-                                                </div>
-                                            </div>
-                                        </div>';
+										'<a href="../Chat_Room/chatroom.php" class="accountbutton">
+											<div class="account">
+												<div class="account-info">
+													<img src="'.$icon.'" alt="'.$username.'" class="image-icon">
+													<div class="content">
+														<span>'.$username.'</span>
+														<p> Email: '.$email.'</p>
+													</div>
+												</div>
+											</div>
+                                        </a>';
                                     }
                                 }
                             }
