@@ -83,7 +83,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
                                     if(empty($search) || str_contains($username, $search)){
                                         $counter += 1;
                                         echo 
-										'<a href="../Chat_Room/chatroom.php" class="accountbutton">
+										'<a href="./redirect.php?id='.$id.'" class="accountbutton">
 											<div class="account">
 												<div class="account-info">
 													<img src="'.$icon.'" alt="'.$username.'" class="image-icon">

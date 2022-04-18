@@ -1,18 +1,19 @@
 <?php 
-  session_start();
-  include_once "php/config.php";
-  if(!isset($_SESSION['unique_id'])){
-    header("location: login.php");
-  }
-?>
-<?php include_once "header.php"; ?>'
-<?php 
-    $user_id = mysqli_real_escape_string($conn, $_GET['user_id']);
-    $sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = {$user_id}");
+    session_start();
+
+    include_once "../config.php";
+
+    if(!isset($_SESSION['unique_id'])){
+        header("location: /");
+    } else{
+        $Friend_id = $_SESSION['unique_id'];
+    }
+
+    $sql = mysqli_query($link, "SELECT * FROM users WHERE id = {$Friend_id}");
     if(mysqli_num_rows($sql) > 0){
-        $row = mysqli_fetch_assoc($sql);
+        $Friend_row = mysqli_fetch_assoc($sql);
     }else{
-        header("location: users.php");
+        header("location: /");
     }
 ?>
 
@@ -28,20 +29,13 @@
         <section class="chat-area">
             <header>
                 <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
-                <img src="php/images/<?php echo $row['icon']; ?>" alt="">
+                <img src="<?php echo $Friend_row['icon']; ?>" alt="">
                 <div class="details">
-                    <span><?php echo $row['fname']. " " . $row['lname'] ?></span>
-                    <p><?php echo $row['status']; ?></p>
+                    <p><?php echo $Friend_row['username'] ?></p>
+                    <div><?php echo $Friend_row['first_name']. " ".$Friend_row['last_name'] ?></div>
+                    <!-- <p><?php echo $Friend_row['status']; ?></p> -->
                 </div>
             </header>
-            
-            <a href="user_list.php"><i class='fas fa-arrow-left'></a>
-                
-            //display the user informaion
-            <img src="icon.jpg" alt="">
-            <div class="details">
-                <span>USERNAME</span>
-            </div>
                 
             <div class="chat-box">
 
