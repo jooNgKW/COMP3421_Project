@@ -93,24 +93,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>ChatTogether Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 360px; padding: 20px; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./index.css">
+
 </head>
 <body>
     <div class="wrapper">
-        <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
-
+		<header>
+			<span><h2>ChatTogether</h2><span>
+			<br/>
+			<p>Please fill in your credentials to login.</p>
+		</header>
         <?php 
         if(!empty($login_err)){
             echo '<div class="alert alert-danger">' . $login_err . '</div>';
-        }        
+        }
         ?>
-
+		<br/>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
                 <label>Username</label>
@@ -122,22 +123,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
+			<br/>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="./Sign_Up/Signup.php">Sign up now</a>.</p>
-        </form>
+			<div class="form-group">
+				<div class="link">
+					<p>Don't have an account? <a href="./Sign_Up/Signup.php">Sign up now</a>.</p>
+				</div>
+			</div>
+		</form>
     </div>
-
-    <?php
-     $sql = "SELECT icon FROM users WHERE username = ?";
-     $stmt = $link->prepare($sql);
-     $stmt->bind_param('s', $x);
-     $x = "kkk";
-     $stmt->execute();
-     $result = $stmt->get_result();
-     $row = $result->fetch_array();
-     echo '<img src="data:image/jpeg;base64,'.base64_encode($row['icon']).'"/>';
-    ?>
 </body>
 </html>
