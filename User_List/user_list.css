@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap');
-
-body{
-    background-color: LightGray;
-    font-family: 'Lato', sans-serif;
-}
+@import url('../general.css');
 
 #my-status-indicator{
     color: green;
@@ -15,6 +11,13 @@ body{
     padding: 25px;
     margin: auto;
     border-radius: 10px;
+}
+
+.accountbutton {
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .user-page .account{
@@ -34,7 +37,7 @@ body{
     margin: auto;
 }
 
-.user-page .account .account-info .content p{
+.user-page .account .account-info .content p {
     margin: 1px 0;
     font-size: 0.8rem;
 }
@@ -111,7 +114,7 @@ body{
     margin-top: 10px;
 }
 
-.user-list{
+.user-list {
     max-height: 600px;
     overflow: auto;
 }
