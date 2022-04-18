@@ -39,7 +39,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
     <link rel="stylesheet" href="./user_list.css">
 </head>
 <body>
-    <div>
+    <div class="wrapper">
         <section class="user-page">
 
             <!-- User Account Information -->
