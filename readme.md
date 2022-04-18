@@ -8,10 +8,23 @@ In this chat app, new users will first sign up for an account using an email acc
 
 Users can logout of the chat app by clicking the logout button. After logging out, users will be redirected to the login page. The status of the user will turn offline. Users need to fill in their credentials again to reenter the chat app. 
 
+## Features
+- Register: make a new account
+- Login: login into the application with you own credentials
+- Userlist: show all users in the system
+- Chat: Enter a chatroom to talk with your friends
+
 ## Programming Language
 1. HTML + CSS
 2. PHP
 3. SQL
+
+## Quick start
+1. Download and setup XAMPP (Apache + MySQL)
+2. Access the application via [your address](http://localhost])
+3. Register an account by clicking "Sign up now"
+4. Login the system with your credentials
+5. Start using the application!
 
 ## Member and contribution
 |Name|Student ID|Contributions|

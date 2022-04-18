@@ -74,8 +74,8 @@
             </div>
 
             <form action="#" class="typing-area">
-                <input type="text" name="out_id" value="<?php echo $_SESSION['unique_id']:?>" hidden>
-                <input type="text" name="in_id" value="<?php echo $user_id:?>" hidden>
+                <input type="text" name="out_id" value="<?php echo $_SESSION['unique_id']?>" hidden>
+                <input type="text" name="in_id" value="<?php echo $user_id?>" hidden>
                 <input type="text" name="message" placeholder="Type a message here..." autocomplete="off">
                 <button><i class="fab fa-telegram-plane"></i></button>
             </form>
