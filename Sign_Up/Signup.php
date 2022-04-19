@@ -97,9 +97,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }elseif(!in_array($_FILES["icon"]["type"], $allowed)){
         $icon_err = "Icon can only be jpg., jpeg., png.";
         
-    // Verify icon size (10MB maximum)
+    // Verify icon size (4MB maximum)
     }elseif($_FILES["icon"]["size"] > $maxsize){
-        $icon_err = "Icon can not be larger than 4 GB";
+        $icon_err = "Icon can not be larger than 4 MB";
         
     }
     
