@@ -23,7 +23,7 @@
     <meta charset="UTF-8">
     <title>Chatroom</title>
     <link rel="stylesheet" href="./chatroom.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
 </head>
 <body>
     <div class="wrapper">
@@ -70,12 +70,12 @@
 
             <form action="#" class="typing-area">
                 <input type="text" name="out_id" value="<?php echo $_SESSION['unique_id']?>" hidden>
-                <input type="text" name="in_id" value="<?php echo $user_id?>" hidden>
-                <input type="text" name="message" placeholder="Type a message here..." autocomplete="off">
+                <input class="in_id" type="text" name="in_id" value="<?php echo $_SESSION['id']?>" hidden>
+                <input class="input-field" type="text" name="message" placeholder="Type a message here..." autocomplete="off">
                 <button><i class="fab fa-telegram-plane"></i></button>
             </form>
         </section>
     </div>
-<script src="javascript/users.js"></script>
+<script src="chatroom.js"></script>
 </body>
 </html>
