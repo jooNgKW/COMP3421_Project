@@ -1,7 +1,7 @@
-<?php
+<?php 
+    session_start();
 
-// Start the session
-session_start();
+    include_once "../config.php";
 
     // Check if user is off-online, if yes, redirect to login page
     if(!isset($_SESSION["online"]) || $_SESSION["online"] === false){
@@ -15,7 +15,12 @@ session_start();
         $Friend_id = $_SESSION['unique_id'];
     }
 
-
+    $sql = mysqli_query($link, "SELECT * FROM users WHERE id = {$Friend_id}");
+    if(mysqli_num_rows($sql) > 0){
+        $Friend_row = mysqli_fetch_assoc($sql);
+    }else{
+        header("location: /");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +52,6 @@ session_start();
             </form>
         </section>
     </div>
+<script src="chatroom.js"></script>
 </body>
-<script src="user_list.js"></script>
 </html>
