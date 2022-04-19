@@ -2,8 +2,10 @@
 /* Chat Area CSS Start */
 .chat-area header{
     display: flex;
-    align-items: center;
+    align-items: left;
     padding: 18px 30px;
+    align-items: center;
+    color: black;
 }
 .chat-area header .back-icon{
     color: #333;
@@ -119,18 +121,4 @@
     width: 50px;
     object-fit: cover;
     border-radius: 50%;
-}
-
-#pen-button{
-    display: flex;
-    justify-content: center;
-    color: #fff;
-    background-color: #333;
-    padding: 7px 15px;
-    font-size: 17px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: ease-out 0.3s;
-    width: 5px;
-    margin-left: auto;
 }
