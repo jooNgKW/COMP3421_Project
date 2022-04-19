@@ -1,5 +1,5 @@
 const form = document.querySelector(".typing-area"),
-	in_id = form.querySelector(".inc_id").value,
+	in_id = form.querySelector(".in_id").value,
 	input_field = form.querySelector(".input-field"),
 	sendButton = form.querySelector("button"),
 	chatBox = document.querySelector(".chat-box");
@@ -19,7 +19,7 @@ input_field.onkeyup = () => {
 
 sendButton.onclick = () => {
 	let xhr = new XMLHttpRequest();
-	xhr.open("POST", "insert-chat.php", true);
+	xhr.open("POST", "insert_chat.php", true);
 	xhr.onload = () => {
 		if (xhr.readyState === XMLHttpRequest.DONE) {
 			if (xhr.status === 200) {
@@ -41,7 +41,7 @@ chatBox.onmouseleave = () => {
 
 setInterval(() => {
 	let xhr = new XMLHttpRequest();
-	xhr.open("POST", "get-chat.php", true);
+	xhr.open("POST", "get_chat.php", true);
 	xhr.onload = () => {
 		if (xhr.readyState === XMLHttpRequest.DONE) {
 			if (xhr.status === 200) {
@@ -54,7 +54,7 @@ setInterval(() => {
 		}
 	};
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhr.send("incoming_id=" + incoming_id);
+	xhr.send("in_id=" + in_id);
 }, 500);
 
 function scrollToBottom() {
