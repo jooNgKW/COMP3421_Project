@@ -6,7 +6,7 @@
         $ing_id = mysqli_real_escape_string($link, $_POST['in_id']);
         $message = mysqli_real_escape_string($link, $_POST['message']);
         if(!empty($message)){
-            $sql = mysqli_query($conn, "INSERT INTO messages (in_msg_id, out_msg_id, msg)
+            $sql = mysqli_query($link, "INSERT INTO messages (in_msg_id, out_msg_id, msg)
                                         VALUES ({$in_id}, {$out_id}, '{$message}')") or die();
         }
     }else{
