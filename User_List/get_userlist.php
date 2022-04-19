@@ -51,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                                     <div class="account-info">
                                         <img src="'.$icon.'" alt="'.$username.'" class="image-icon">
                                         <div class="content">
-                                            <span>'.$username.'</span>
+                                            <span class="username">'.$username.'</span>
                                             <p>'.$input.'</p>
                                         </div>
                                     </div>

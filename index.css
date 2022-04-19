@@ -10,9 +10,10 @@
     border-radius: 15px 15px 0px 0px;
 }
 
-.wrapper header p {
-
-}
+    .wrapper header p {
+        font-style: italic;
+        color: #808080;
+    }
 
 .form-group {
     padding: 0px 25px;
