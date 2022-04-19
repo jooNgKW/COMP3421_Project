@@ -14,14 +14,14 @@
                     if($row['out_msg_id'] === $out_id){
                         $output .= '<div class = "chat out">
                                     <div class="details">
-                                        <p> '. $row[msg] .'</p>
+                                        <p> '. $row['msg'] .'</p>
                                     </div>
                                     </div>';
                     }else{
                         $output .= '<div class = "chat in">
                                     <img src="img.jpg" alt="">
                                     <div class="details">
-                                        <p> '. $row[msg] .'</p>
+                                        <p> '. $row['msg'] .'</p>
                                     </div>
                                     </div>';
                     }

@@ -34,7 +34,6 @@
                 <div class="details">
                     <p><?php echo $Friend_row['username'] ?></p>
                     <div id="friend-caption"><?php echo $Friend_row['caption'] ?></div>
-                    <!-- <p><?php echo $Friend_row['status']; ?></p> -->
                 </div>
             </header>
                 
@@ -68,11 +67,11 @@
 
             </div>
 
-            <form action="#" class="typing-area">
+            <form action="./insert_chat.php" class="typing-area" method="post">
                 <input type="text" name="out_id" value="<?php echo $_SESSION['unique_id']?>" hidden>
-                <input class="in_id" type="text" name="in_id" value="<?php echo $_SESSION['id']?>" hidden>
+                <input type="text" name="in_id" value="<?php echo $_SESSION['id']?>" class="in_id" hidden>
                 <input class="input-field" type="text" name="message" placeholder="Type a message here..." autocomplete="off">
-                <button><i class="fab fa-telegram-plane"></i></button>
+                <button type="submit"><i class="fab fa-telegram-plane"></i></button>
             </form>
         </section>
     </div>
