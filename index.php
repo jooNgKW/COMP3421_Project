@@ -102,9 +102,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
     <div class="wrapper">
 		<header>
-			<span><h2>ChatTogether</h2><span>
-			<br/>
-			<p>Please fill in your credentials to login.</p>
+			<div style="display:flex;">
+			<i class="fa fa-comment" aria-hidden="true" style="font-size: 35px;"></i>
+			<h2>ChatTogether</h2>
+			</div>
+			<p >Please fill in your credentials to login.</p>
 		</header>
         <?php 
         if(!empty($login_err)){
@@ -125,7 +127,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
 			<br/>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Login">
+				<input type="submit" class="btn btn-dark" value="Login">
             </div>
 			<div class="form-group">
 				<div class="link">
