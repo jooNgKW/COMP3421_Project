@@ -6,7 +6,7 @@
 }
 
 .wrapper{
-    min-height: 300px;
+    min-height: 400px;
 }
 
 .user-page{
@@ -29,15 +29,23 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
+    width: 300px;
 }
 
-.user-page .account .account-info{
+.user-page .my-account{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.user-page .account-info{
     display: flex;
     margin: auto 0;
     padding-bottom: 10px;
 }
 
-.user-page .account .my-account-info{
+.user-page .my-account-info{
     display: flex;
     margin: auto 0;
     margin-bottom: 2px;
@@ -54,7 +62,7 @@
     font-style: italic;
 }
 
-.user-page .account .account-info .content p {
+.user-page .account-info .content p {
     margin: 5px 0;
     font-size: 0.8rem;
     color: #333;
@@ -68,7 +76,7 @@
     border-radius: 50%;
 }
 
-.user-page .account #logout-button{
+.user-page #logout-button{
     color: #fff;
     background-color: #333;
     padding: 5px 10px;
@@ -78,7 +86,7 @@
     transition: ease-out 0.3s;
 }
 
-.user-page .account #pen-button{
+.user-page #pen-button{
     color: #fff;
     background-color: #333;
     padding: 4px;
@@ -91,13 +99,13 @@
     cursor: pointer;
 }
 
-.user-page .account #logout-button:hover{
+.user-page #logout-button:hover{
     background-color: white;
     color: #333;
     border: #333 1px solid;
 }
 
-.user-page .account #pen-button:hover{
+.user-page #pen-button:hover{
     background-color: white;
     color: #333;
     border: #333 1px solid;
@@ -115,9 +123,8 @@
     min-height: 30px;
     width: calc(95% - 30px);
     border: 1px solid #ccc;
-    border-right: none;
     font-size: 16px;
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
     margin: auto 0;
     padding: 5px;
 }
@@ -153,9 +160,13 @@
 }
 
 .user-list {
+    display: flex;
     flex-direction: column;
-    max-height: 600px;
+    max-height: 300px;
     overflow: auto;
+    align-items: center;
+    overflow: auto;
+    height: 100%
 }
 
 .user-list h4{
@@ -177,7 +188,7 @@
 
 /* Model */
 /* The Modal (background) */
-#myModal {
+#pop-up {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -192,7 +203,7 @@
   }
   
   /* Modal Content */
-  .modal-content {
+  .pop-up-content {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -201,13 +212,13 @@
     border-radius: 20px;
   }
 
-  .modal-header{
+  .pop-up-header{
       display: flex;
       border: 0px;
       padding: 1rem;
   }
 
-  .modal-header h4{
+  .pop-up-header h4{
     display: flex;
 }
 

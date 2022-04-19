@@ -12,16 +12,6 @@ if(!isset($_SESSION["online"]) || $_SESSION["online"] === false){
     exit;
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    // Store user input to search variable
-    if(empty(trim($_POST["search"]))){
-        $search = "";
-    } else{
-        $search = trim($_POST["search"]);
-    }
-}
-
 // Query database for user icon
 $result = mysqli_query($link, "SELECT icon, caption FROM users WHERE id = '".$_SESSION['id']."'");
 $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -44,7 +34,7 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
         <section class="user-page">
 
             <!-- User Account Information -->
-            <div class="account">
+            <div class="my-account">
                 <div class="my-account-info">
                     <?php echo '<img src="'.$currentuser["icon"].'" alt="'.$_SESSION['username'].'" class="image-icon">'; ?>
 					<div class="content">
@@ -59,13 +49,12 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
             </div>
 
             <!-- Search -->
-            <form class="search" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <input type="text" placeholder="Enter name to search...." name="search" value="<?php echo isset($search)?$search:""; ?>">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            <div class="search">
+                <input type="text" placeholder="Enter name to search...." name="search" value="<?php echo isset($search)?$search:""; ?>" onkeyup="showUsers(this.value)" id="search-input">
+                <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+            </div>
 
-            <!-- Friend Account Information -->
-            <div class="user-list">
+            <div class="user-list" id="user-list">
                 <?php
                     // Query all users in the database
                     $sql = "SELECT id, username, icon, email, caption FROM users WHERE id != ?";
@@ -87,16 +76,16 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
                                         $counter += 1;
                                         $input = empty($caption)?"Welcome to use Chat Together!":$caption;
                                         echo 
-										'<a href="./redirect.php?id='.$id.'" class="accountbutton">
-											<div class="account">
-												<div class="account-info">
-													<img src="'.$icon.'" alt="'.$username.'" class="image-icon">
-													<div class="content">
-														<span>'.$username.'</span>
-														<p>'.$input.'</p>
-													</div>
-												</div>
-											</div>
+                                        '<a href="./redirect.php?id='.$id.'" class="accountbutton">
+                                            <div class="account">
+                                                <div class="account-info">
+                                                    <img src="'.$icon.'" alt="'.$username.'" class="image-icon">
+                                                    <div class="content">
+                                                        <span>'.$username.'</span>
+                                                        <p>'.$input.'</p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </a>';
                                     }
                                 }
@@ -114,13 +103,13 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
                 ?>
             </div>
 
-            <!-- The Modal -->
-            <div id="myModal">
+            <!-- The pop-up -->
+            <div id="pop-up">
 
-                <!-- Modal content -->
-                <div class="modal-content">
+                <!-- pop-up content -->
+                <div class="pop-up-content">
                     <form action="./change_caption.php" method="POST">
-                        <div class="modal-header">
+                        <div class="pop-up-header">
                             <h5>Edit Caption</h5>
                             <button type="button" class="close" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -137,29 +126,5 @@ $currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
         </section>
     </div>
 </body>
-
-<script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
-
-        // Get the button that opens the modal
-        var button = document.getElementsByClassName("close")[0];
-
-        // When the user clicks the button, open the modal 
-        function clicked_pen() {
-            modal.style.display = "block";
-        }
-
-        button.onclick = function(){
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-
+<script src="user_list.js"></script>
 </html>

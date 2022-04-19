@@ -15,9 +15,9 @@ Users can logout of the chat app by clicking the logout button. After logging ou
 - Chat: Enter a chatroom to talk with your friends
 
 ## Programming Language
-1. HTML + CSS
-2. PHP
-3. SQL
+1. HTML + CSS + JS (Frontend)
+2. PHP (Backend)
+3. SQL (Database Query)
 
 ## Quick start
 1. Download and setup XAMPP (Apache + MySQL)
