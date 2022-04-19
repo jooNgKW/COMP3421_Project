@@ -7,7 +7,6 @@
         $From_id = $_SESSION['id'];
         $To_id = $_SESSION['unique_id'];
         $message = mysqli_real_escape_string($link, $_POST['message']);
-
         $sql = "INSERT INTO messages (From_id, To_id, msg) VALUES ('{$From_id}', '{$To_id}', '{$message}')";
 
         if (mysqli_query($link, $sql)) {
@@ -15,7 +14,6 @@
           } else {
             echo "System Error, contact web admin for further assistance." . $sql . "<br>" . $link->error;
           }
-
     }else{
         header("location: ../login.php");
     }
