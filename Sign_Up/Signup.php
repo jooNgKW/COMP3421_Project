@@ -131,7 +131,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if(mysqli_stmt_execute($stmt)){
                 header("location: /");
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "System error! Contact website admin for further assistance.";
             }
 
             mysqli_stmt_close($stmt);
