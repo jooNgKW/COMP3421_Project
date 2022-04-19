@@ -1,80 +1,130 @@
-<?php 
-    session_start();
+<?php
 
-    include_once "../config.php";
+// Start the session
+session_start();
 
-    if(!isset($_SESSION['unique_id'])){
-        header("location: /");
-    } else{
-        $Friend_id = $_SESSION['unique_id'];
-    }
+// Config Database
+require_once "../config.php";
 
-    $sql = mysqli_query($link, "SELECT * FROM users WHERE id = {$Friend_id}");
-    if(mysqli_num_rows($sql) > 0){
-        $Friend_row = mysqli_fetch_assoc($sql);
-    }else{
-        header("location: /");
-    }
+// Check if user is off-online, if yes, redirect to login page
+if(!isset($_SESSION["online"]) || $_SESSION["online"] === false){
+    header("location: /");
+    exit;
+}
+
+// Query database for user icon
+$result = mysqli_query($link, "SELECT icon, caption FROM users WHERE id = '".$_SESSION['id']."'");
+$currentuser = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chatroom</title>
-    <link rel="stylesheet" href="./chatroom.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Together</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="./user_list.css">
 </head>
 <body>
     <div class="wrapper">
-        <section class="chat-area">
-            <header>
-                <a href="/"><i class="fa fa-angle-left"></i></a> 
-                <img class="image-icon" src="<?php echo $Friend_row['icon']; ?>" alt="">
-                <div class="details">
-                    <p><?php echo $Friend_row['username'] ?></p>
-                    <div id="friend-caption"><?php echo $Friend_row['caption'] ?></div>
-                </div>
-            </header>
-                
-            <div class="chat-box">
+        <section class="user-page">
 
-                <div class="chat outgoing">
-                    <div class="details">
-                        <p>This is the chat content from you</p>
+            <!-- User Account Information -->
+            <div class="my-account">
+                <div class="my-account-info">
+                    <?php echo '<img src="'.$currentuser["icon"].'" alt="'.$_SESSION['username'].'" class="image-icon">'; ?>
+					<div class="content">
+                        <div class="username"><?php echo $_SESSION['username']?></div>
+                        <div id="caption"><?php echo empty($currentuser["caption"])?"Welcome to use Chat Together!":$currentuser["caption"];?><span><button id="pen-button" onclick="clicked_pen()"><i class="fa fa-pencil"></i></button></span></div>
+                        <p><i class="fa fa-circle" id="my-status-indicator"></i> &nbsp Active</p>
                     </div>
                 </div>
-
-                <div class="chat incoming">
-                    <img src="" alt="icon">
-                    <div class="details">
-                        <p>This is the chat content from your friend</p>
-                    </div>
+                <div class="button">
+                    <a id="logout-button" href="/logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i></a> 
                 </div>
+            </div>
 
-                <div class="chat outgoing">
-                    <div class="details">
-                        <p>This is the chat content from you</p>
-                    </div>
-                </div>
+            <!-- Search -->
+            <div class="search">
+                <input type="text" placeholder="Enter name to search...." name="search" value="<?php echo isset($search)?$search:""; ?>" onkeyup="showUsers(this.value)" id="search-input">
+                <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+            </div>
 
-                <div class="chat incoming">
-                    <img src="" alt="icon">
-                    <div class="details">
-                        <p>This is the chat content from your friend</p>
-                    </div>
+            <div class="user-list" id="user-list">
+                <?php
+                    // Query all users in the database
+                    $sql = "SELECT id, username, icon, email, caption FROM users WHERE id != ?";
+
+                    // Execute SQL
+                    if($stmt = mysqli_prepare($link, $sql)){
+                        mysqli_stmt_bind_param($stmt, "i", $param_id);
+                        $param_id = $_SESSION['id'];
+                        if(mysqli_stmt_execute($stmt)){
+                            mysqli_stmt_store_result($stmt);
+                            mysqli_stmt_bind_result($stmt, $id, $username, $icon, $email, $caption);
+                            $number_of_list = mysqli_stmt_num_rows($stmt);
+
+                            $counter = 0;
+                            // list all the query result
+                            for($x = 0; $x < $number_of_list; $x++){
+                                if(mysqli_stmt_fetch($stmt)){
+                                    if(empty($search) || str_contains($username, $search)){
+                                        $counter += 1;
+                                        $input = empty($caption)?"Welcome to use Chat Together!":$caption;
+                                        echo 
+                                        '<a href="./redirect.php?id='.$id.'" class="accountbutton">
+                                            <div class="account">
+                                                <div class="account-info">
+                                                    <img src="'.$icon.'" alt="'.$username.'" class="image-icon">
+                                                    <div class="content">
+                                                        <span class="username">'.$username.'</span>
+                                                        <p>'.$input.'</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>';
+                                    }
+                                }
+                            }
+
+                            // Provide negative feedback when no user is found from the query
+                            if ($counter == 0){
+                                echo "<h4>No user is found!</h4>";
+                            }
+                        }
+                    }
+
+                    mysqli_stmt_close($stmt);
+
+                ?>
+            </div>
+
+            <!-- The pop-up -->
+            <div id="pop-up">
+
+                <!-- pop-up content -->
+                <div class="pop-up-content">
+                    <form action="./change_caption.php" method="POST">
+                        <div class="pop-up-header">
+                            <h5>Edit Caption</h5>
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="input-group mb-3 ">
+                            <input type="text" class="form-control" placeholder="New caption" name="new-caption">
+                            <input class="btn btn-outline-secondary" type="submit" value="Submit">
+                        </div>
+                    </form>
                 </div>
 
             </div>
-
-            <form action="./insert_chat.php" class="typing-area" method="post">
-                <input type="text" name="out_id" value="<?php echo $_SESSION['unique_id']?>" hidden>
-                <input type="text" name="in_id" value="<?php echo $_SESSION['id']?>" class="in_id" hidden>
-                <input class="input-field" type="text" name="message" placeholder="Type a message here..." autocomplete="off">
-                <button type="submit"><i class="fab fa-telegram-plane"></i></button>
-            </form>
         </section>
     </div>
-<script src="chatroom.js"></script>
 </body>
+<script src="user_list.js"></script>
 </html>
