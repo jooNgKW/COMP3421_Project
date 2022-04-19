@@ -23,6 +23,7 @@
     <meta charset="UTF-8">
     <title>Chatroom</title>
     <link rel="stylesheet" href="./chatroom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
 </head>
 <body>
     <div class="wrapper">
