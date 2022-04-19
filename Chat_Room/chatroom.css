@@ -106,3 +106,31 @@
     opacity: 1;
     pointer-events: auto;
 }
+
+#friend-caption{
+    margin: 5px 0;
+    font-size: 0.8rem;
+    color: #333;
+    font-style: italic;
+}
+
+.image-icon{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#pen-button{
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    background-color: #333;
+    padding: 7px 15px;
+    font-size: 17px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: ease-out 0.3s;
+    width: 5px;
+    margin-left: auto;
+}

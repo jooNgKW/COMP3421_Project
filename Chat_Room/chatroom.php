@@ -23,18 +23,19 @@
     <meta charset="UTF-8">
     <title>Chatroom</title>
     <link rel="stylesheet" href="./chatroom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="wrapper">
         <section class="chat-area">
             <header>
-                <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
-                <img src="<?php echo $Friend_row['icon']; ?>" alt="">
+                <img class="image-icon" src="<?php echo $Friend_row['icon']; ?>" alt="">
                 <div class="details">
                     <p><?php echo $Friend_row['username'] ?></p>
-                    <div><?php echo $Friend_row['first_name']. " ".$Friend_row['last_name'] ?></div>
+                    <div id="friend-caption"><?php echo $Friend_row['caption'] ?></div>
                     <!-- <p><?php echo $Friend_row['status']; ?></p> -->
                 </div>
+                <a id="pen-button" href="/"><i class="fa fa-close"></i></a> 
             </header>
                 
             <div class="chat-box">
